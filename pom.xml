@@ -23,11 +23,40 @@
     </properties>
 
     <dependencies>
-        <!-- Spring Core (for HttpStatus) -->
+        <!-- Spring Web (for HttpStatus and ControllerAdvice) -->
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
+            <artifactId>spring-web</artifactId>
             <version>6.0.11</version>
+        </dependency>
+
+        <!-- Spring Web MVC (for ResponseEntityExceptionHandler and HttpServletRequest) -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>6.0.11</version>
+        </dependency>
+
+        <!-- Jakarta Servlet API (for HttpServletRequest) -->
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Spring Context (for component scanning) -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>6.0.11</version>
+        </dependency>
+
+        <!-- gRPC for gRPC Status -->
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-api</artifactId>
+            <version>1.58.0</version>
         </dependency>
 
         <!-- Jackson for JSON serialization -->
@@ -49,6 +78,28 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Jakarta Validation API -->
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+
+        <!-- Spring Boot Starter Validation (for @Valid support) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+            <version>3.2.7</version>
+        </dependency>
+
+        <!-- Spring Data JPA (for DataIntegrityViolationException) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>3.2.7</version>
             <scope>provided</scope>
         </dependency>
 
