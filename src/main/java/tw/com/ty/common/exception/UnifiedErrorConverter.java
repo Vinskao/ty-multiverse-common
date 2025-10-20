@@ -1,7 +1,6 @@
 package tw.com.ty.common.exception;
 
 import io.grpc.Status;
-import org.springframework.http.HttpStatus;
 
 /**
  * 統一錯誤轉換器

@@ -1,6 +1,5 @@
 package tw.com.ty.common.exception.handler.impl;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -23,9 +22,8 @@ public class DataIntegrityApiExceptionHandler implements ApiExceptionHandler {
     }
 
     @Override
-    public ResponseEntity<ErrorResponse> handle(Exception ex, HttpServletRequest request) {
-        ErrorResponse errorResponse = ErrorResponse.fromErrorCode(
-            ErrorCode.DUPLICATE_ENTRY, "資料衝突或約束違反", request.getRequestURI());
-        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    public ErrorResponse handle(Exception ex, String requestUri) {
+        return ErrorResponse.fromErrorCode(
+            ErrorCode.DUPLICATE_ENTRY, "資料衝突或約束違反", requestUri);
     }
 }

@@ -1,6 +1,5 @@
 package tw.com.ty.common.exception.handler.impl;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,11 +27,10 @@ public class ResilienceApiExceptionHandler implements ApiExceptionHandler {
     }
 
     @Override
-    public ResponseEntity<ErrorResponse> handle(Exception ex, HttpServletRequest request) {
+    public ErrorResponse handle(Exception ex, String requestUri) {
         ErrorCode errorCode = determineErrorCode(ex);
-        ErrorResponse errorResponse = ErrorResponse.fromErrorCode(
-            errorCode, ex.getMessage(), request.getRequestURI());
-        return new ResponseEntity<>(errorResponse, errorCode.getHttpStatus());
+        return ErrorResponse.fromErrorCode(
+            errorCode, ex.getMessage(), requestUri);
     }
 
     private ErrorCode determineErrorCode(Exception ex) {

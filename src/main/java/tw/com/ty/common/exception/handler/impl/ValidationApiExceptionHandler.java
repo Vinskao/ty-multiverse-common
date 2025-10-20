@@ -1,6 +1,5 @@
 package tw.com.ty.common.exception.handler.impl;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,15 +22,14 @@ public class ValidationApiExceptionHandler implements ApiExceptionHandler {
     }
 
     @Override
-    public ResponseEntity<ErrorResponse> handle(Exception ex, HttpServletRequest request) {
+    public ErrorResponse handle(Exception ex, String requestUri) {
         MethodArgumentNotValidException validationEx = (MethodArgumentNotValidException) ex;
         String detail = validationEx.getBindingResult().getFieldErrors().stream()
                 .map(error -> error.getField() + ": " + error.getDefaultMessage())
                 .reduce((a, b) -> a + "; " + b)
                 .orElse("參數驗證失敗");
 
-        ErrorResponse errorResponse = ErrorResponse.fromErrorCode(
-            ErrorCode.BAD_REQUEST, detail, request.getRequestURI());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        return ErrorResponse.fromErrorCode(
+            ErrorCode.BAD_REQUEST, detail, requestUri);
     }
 }

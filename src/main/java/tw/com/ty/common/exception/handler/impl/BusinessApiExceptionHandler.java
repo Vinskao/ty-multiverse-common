@@ -1,20 +1,18 @@
 package tw.com.ty.common.exception.handler.impl;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import tw.com.ty.common.exception.BusinessException;
 import tw.com.ty.common.exception.ErrorResponse;
 import tw.com.ty.common.exception.UnifiedErrorConverter;
-import tw.com.ty.common.exception.handler.ApiExceptionHandler;
+import tw.com.ty.common.exception.handler.AbstractApiExceptionHandler;
 
 /**
- * 業務異常處理器
+ * 業務異常處理器 - 支援多協議架構
  */
 @Component
 @Order(0)
-public class BusinessApiExceptionHandler implements ApiExceptionHandler {
+public class BusinessApiExceptionHandler extends AbstractApiExceptionHandler {
 
     @Override
     public boolean canHandle(Exception ex) {
@@ -22,9 +20,36 @@ public class BusinessApiExceptionHandler implements ApiExceptionHandler {
     }
 
     @Override
-    public ResponseEntity<ErrorResponse> handle(Exception ex, HttpServletRequest request) {
-        BusinessException be = (BusinessException) ex;
-        ErrorResponse response = UnifiedErrorConverter.toHttpResponse(be, request.getRequestURI());
-        return new ResponseEntity<>(response, be.getErrorCode().getHttpStatus());
+    protected ErrorResponse createErrorResponse(BusinessException ex, String requestUri) {
+        return UnifiedErrorConverter.toHttpResponse(ex, requestUri);
+    }
+}
+
+/**
+ * WebFlux 專用業務異常處理器範例
+ *
+ * 此類示範如何在響應式環境中使用統一的異常處理邏輯
+ * 注意：此類不需要 @Component，因為每個專案應該有自己的實現
+ */
+class WebFluxBusinessExceptionHandler extends AbstractApiExceptionHandler {
+
+    @Override
+    public boolean canHandle(Exception ex) {
+        return ex instanceof BusinessException;
+    }
+
+    @Override
+    protected ErrorResponse createErrorResponse(BusinessException ex, String requestUri) {
+        return UnifiedErrorConverter.toHttpResponse(ex, requestUri);
+    }
+
+    /**
+     * 響應式環境專用方法
+     */
+    public reactor.core.publisher.Mono<org.springframework.http.ResponseEntity<ErrorResponse>> handleReactive(BusinessException ex, String requestUri) {
+        ErrorResponse errorResponse = createErrorResponse(ex, requestUri);
+        return reactor.core.publisher.Mono.just(
+            new org.springframework.http.ResponseEntity<>(errorResponse, ex.getErrorCode().getHttpStatus())
+        );
     }
 }

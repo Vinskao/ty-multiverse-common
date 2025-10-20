@@ -1,6 +1,5 @@
 package tw.com.ty.common.exception.handler.impl;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +21,8 @@ public class DefaultApiExceptionHandler implements ApiExceptionHandler {
     }
 
     @Override
-    public ResponseEntity<ErrorResponse> handle(Exception ex, HttpServletRequest request) {
-        ErrorResponse errorResponse = ErrorResponse.fromErrorCode(
-            ErrorCode.INTERNAL_SERVER_ERROR, ex.getMessage(), request.getRequestURI());
-        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    public ErrorResponse handle(Exception ex, String requestUri) {
+        return ErrorResponse.fromErrorCode(
+            ErrorCode.INTERNAL_SERVER_ERROR, ex.getMessage(), requestUri);
     }
 }
