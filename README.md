@@ -22,11 +22,56 @@ src/main/java/tw/com/ty/common/
 
 ## 📋 發佈到 GitHub Packages
 
-### 方式一：Maven 自動發佈（推薦）
+### 🔐 GitHub Token 設定
+
+#### 1. 生成 GitHub Personal Access Token
+1. 前往 [GitHub Settings > Developer settings > Personal access tokens](https://github.com/settings/tokens)
+2. 點擊 **"Generate new token (classic)"**
+3. 設定權限：
+   - ✅ `read:packages` - 下載套件
+   - ✅ `write:packages` - 上傳套件
+   - ✅ `delete:packages` - 刪除套件（可選）
+4. 複製生成的 token（只會顯示一次）
+
+#### 2. 設定環境變數
+```bash
+# 設定 GitHub Token 環境變數
+export GITHUB_TOKEN=ghp_your_actual_token_here
+
+# 驗證設定
+echo $GITHUB_TOKEN
+```
+
+#### 3. 設定 Maven settings.xml
+在 `~/.m2/settings.xml` 中加入以下配置：
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                              http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <servers>
+    <server>
+      <id>github</id>
+      <username>你的GitHub用戶名</username>
+      <password>${env.GITHUB_TOKEN}</password>
+    </server>
+  </servers>
+
+  <activeProfiles>
+    <activeProfile>github</activeProfile>
+  </activeProfiles>
+</settings>
+```
+
+### 🚀 發佈方式
+
+#### 方式一：Maven 自動發佈（推薦）
 
 ```bash
 # 確保環境變數已設定
-export GITHUB_TOKEN=your_github_token_here
+export GITHUB_TOKEN=ghp_your_actual_token_here
 
 # 發佈到 GitHub Packages
 mvn clean deploy -Dmaven.test.skip=true
@@ -95,8 +140,102 @@ mvn clean package -Dmaven.test.skip=true
 - Maven 3.6+
 - GitHub Personal Access Token（用於發佈套件）
 
+## 🔧 當前配置設定
+
+### Maven settings.xml 配置
+```xml
+<!-- 位置: ~/.m2/settings.xml -->
+<server>
+  <id>github</id>
+  <username>Vinskao</username>
+  <password>${env.GITHUB_TOKEN}</password>
+</server>
+```
+
+### POM 發佈配置
+```xml
+<!-- 位置: pom.xml -->
+<distributionManagement>
+  <repository>
+    <id>github</id>
+    <name>GitHub Packages</name>
+    <url>https://maven.pkg.github.com/Vinskao/ty-multiverse-common</url>
+  </repository>
+</distributionManagement>
+```
+
+### 環境變數設定
+```bash
+# 檢查當前環境變數（如果已設定）
+echo $GITHUB_TOKEN
+
+# 如果未設定，會顯示空行
+```
+
+### 🔑 當前 Token 狀態
+```bash
+# 檢查 token 是否設定
+if [ -n "$GITHUB_TOKEN" ]; then
+    echo "✅ GITHUB_TOKEN 已設定"
+    echo "Token 開頭: ${GITHUB_TOKEN:0:8}..."
+    echo "Token 長度: ${#GITHUB_TOKEN} 字符"
+else
+    echo "❌ GITHUB_TOKEN 未設定"
+fi
+```
+
+**當前狀態**: ✅ Token 已設定 (`ghp_vQuTx...`，長度: 40 字符)
+
+### 🧪 測試發佈功能
+
+```bash
+# 測試編譯
+mvn clean compile
+
+# 測試打包（不包含測試）
+mvn package -Dmaven.test.skip=true
+
+# 測試發佈到本地倉庫
+mvn install
+
+# 測試發佈到 GitHub Packages（需要網路）
+mvn deploy -Dmaven.test.skip=true
+```
+
+## 🔍 GitHub Package 驗證指令
+
+### 檢查所有 Maven 套件
+```bash
+curl -H "Authorization: Bearer $GITHUB_TOKEN" \
+     "https://api.github.com/users/Vinskao/packages?package_type=maven"
+```
+
+### 檢查特定套件版本
+```bash
+curl -H "Authorization: Bearer $GITHUB_TOKEN" \
+     "https://api.github.com/users/Vinskao/packages/maven/tw.com.ty.ty-multiverse-common/versions"
+```
+
+### 檢查套件 POM 檔案
+```bash
+curl -H "Authorization: Bearer $GITHUB_TOKEN" \
+     "https://maven.pkg.github.com/Vinskao/ty-multiverse-common/tw/com/ty/ty-multiverse-common/1.1/ty-multiverse-common-1.1.pom"
+```
+
+### 套件命名規則
+GitHub Package 的實際名稱格式為：`tw.com.ty.ty-multiverse-common`
+
+這是由於：
+- **groupId**: `tw.com.ty`
+- **artifactId**: `ty-multiverse-common`
+- **組合結果**: `tw.com.ty.ty-multiverse-common`
+
 ## 📝 版本歷史
 
+- **v1.1** (2025-01-27)
+  - 新增 Rate Limiter 功能
+  - 協議無關設計
+  - 統一 Resilience 處理
 - **v1.0** (2025-10-19)
   - 初始版本
   - 統一異常處理
