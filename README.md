@@ -74,7 +74,8 @@ echo $GITHUB_TOKEN
 export GITHUB_TOKEN=ghp_your_actual_token_here
 
 # 發佈到 GitHub Packages
-mvn clean deploy -Dmaven.test.skip=true
+cd ty-multiverse-common
+mvn clean deploy "-Dmaven.test.skip=true"
 ```
 
 ### 方式二：手動上傳 JAR 檔案
