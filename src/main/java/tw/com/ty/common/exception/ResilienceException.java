@@ -1,5 +1,7 @@
 package tw.com.ty.common.exception;
 
+import tw.com.ty.common.response.ErrorCode;
+
 /**
  * 彈性相關異常類別
  *

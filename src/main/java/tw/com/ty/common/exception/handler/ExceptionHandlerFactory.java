@@ -28,15 +28,4 @@ public class ExceptionHandlerFactory {
         );
     }
 
-    /**
-     * 建立 gRPC 異常處理器鏈
-     */
-    @Bean("grpcExceptionHandlers")
-    public List<GrpcExceptionHandler> createGrpcExceptionHandlers() {
-        return List.of(
-            new BusinessGrpcExceptionHandler(),
-            new ValidationGrpcExceptionHandler(),
-            new DefaultGrpcExceptionHandler()
-        );
-    }
 }

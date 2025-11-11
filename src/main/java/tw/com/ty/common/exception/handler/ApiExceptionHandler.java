@@ -1,6 +1,6 @@
 package tw.com.ty.common.exception.handler;
 
-import tw.com.ty.common.exception.ErrorResponse;
+import tw.com.ty.common.response.ErrorResponse;
 
 /**
  * API 異常處理器介面 - 協議無關設計

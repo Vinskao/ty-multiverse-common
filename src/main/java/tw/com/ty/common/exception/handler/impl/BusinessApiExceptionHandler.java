@@ -3,7 +3,7 @@ package tw.com.ty.common.exception.handler.impl;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import tw.com.ty.common.exception.BusinessException;
-import tw.com.ty.common.exception.ErrorResponse;
+import tw.com.ty.common.response.ErrorResponse;
 import tw.com.ty.common.exception.UnifiedErrorConverter;
 import tw.com.ty.common.exception.handler.AbstractApiExceptionHandler;
 

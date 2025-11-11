@@ -1,7 +1,7 @@
-package tw.com.ty.common.exception;
+package tw.com.ty.common.response;
 
 import lombok.Getter;
-import tw.com.ty.common.response.ErrorCode;
+import tw.com.ty.common.exception.BusinessException;
 
 import java.time.LocalDateTime;
 
@@ -10,20 +10,10 @@ import java.time.LocalDateTime;
  * 用於 Spring Cloud Gateway 的錯誤響應格式
  */
 @Getter
-public class GatewayErrorResponse {
-
-    private final int code;
-    private final String message;
-    private final String detail;
-    private final LocalDateTime timestamp;
-    private final String path;
+public class GatewayErrorResponse extends BaseErrorResponse {
 
     public GatewayErrorResponse(int code, String message, String detail, LocalDateTime timestamp, String path) {
-        this.code = code;
-        this.message = message;
-        this.detail = detail;
-        this.timestamp = timestamp;
-        this.path = path;
+        super(code, message, detail, timestamp, path);
     }
 
     /**

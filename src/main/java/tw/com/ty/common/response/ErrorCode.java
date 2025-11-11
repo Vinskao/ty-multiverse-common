@@ -1,4 +1,4 @@
-package tw.com.ty.common.exception;
+package tw.com.ty.common.response;
 
 import org.springframework.http.HttpStatus;
 

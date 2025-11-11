@@ -5,8 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import tw.com.ty.common.exception.ErrorCode;
-import tw.com.ty.common.exception.ErrorResponse;
+
+import tw.com.ty.common.response.ErrorCode;
+import tw.com.ty.common.response.ErrorResponse;
 import tw.com.ty.common.exception.handler.ApiExceptionHandler;
 
 /**

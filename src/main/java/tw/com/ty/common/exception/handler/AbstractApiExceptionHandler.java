@@ -1,6 +1,6 @@
 package tw.com.ty.common.exception.handler;
 
-import tw.com.ty.common.exception.ErrorResponse;
+import tw.com.ty.common.response.ErrorResponse;
 
 /**
  * 抽象異常處理器基類
@@ -28,7 +28,7 @@ public abstract class AbstractApiExceptionHandler implements ApiExceptionHandler
         }
         // 預設轉換邏輯
         return new tw.com.ty.common.exception.BusinessException(
-            tw.com.ty.common.exception.ErrorCode.INTERNAL_SERVER_ERROR,
+            tw.com.ty.common.response.ErrorCode.INTERNAL_SERVER_ERROR,
             "系統異常：" + ex.getMessage(),
             ex
         );
@@ -39,7 +39,7 @@ public abstract class AbstractApiExceptionHandler implements ApiExceptionHandler
      * 子類可以覆寫此方法來自定義響應格式
      */
     protected ErrorResponse createErrorResponse(tw.com.ty.common.exception.BusinessException ex, String requestUri) {
-        return tw.com.ty.common.exception.ErrorResponse.fromErrorCode(
+        return ErrorResponse.fromErrorCode(
             ex.getErrorCode(),
             ex.getMessage(),
             requestUri

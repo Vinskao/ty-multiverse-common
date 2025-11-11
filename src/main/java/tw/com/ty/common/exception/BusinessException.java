@@ -1,5 +1,7 @@
 package tw.com.ty.common.exception;
 
+import tw.com.ty.common.response.ErrorCode;
+
 /**
  * 業務異常基類
  * 所有模組拋出的異常都應該繼承此類
