@@ -422,7 +422,162 @@ public enum ErrorCode {
      * 
      * @see HttpStatus#TOO_MANY_REQUESTS
      */
-    BULKHEAD_FULL(HttpStatus.TOO_MANY_REQUESTS, "RESIL_002", "系統並發處理繁忙，請稍後再試");
+    BULKHEAD_FULL(HttpStatus.TOO_MANY_REQUESTS, "RESIL_002", "系統並發處理繁忙，請稍後再試"),
+    
+    // ==================== 業務實體相關錯誤 ====================
+    
+    /**
+     * 角色不存在
+     * 
+     * 當查詢的角色不存在時使用此錯誤碼。
+     * 
+     * @see HttpStatus#NOT_FOUND
+     */
+    PEOPLE_NOT_FOUND(HttpStatus.NOT_FOUND, "PEOPLE_001", "角色不存在"),
+    
+    /**
+     * 獲取角色失敗
+     * 
+     * 當獲取角色資料時發生錯誤時使用此錯誤碼。
+     * 
+     * @see HttpStatus#INTERNAL_SERVER_ERROR
+     */
+    PEOPLE_GET_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "PEOPLE_002", "獲取角色失敗"),
+    
+    /**
+     * 獲取角色列表失敗
+     * 
+     * 當獲取角色列表時發生錯誤時使用此錯誤碼。
+     * 
+     * @see HttpStatus#INTERNAL_SERVER_ERROR
+     */
+    PEOPLE_LIST_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "PEOPLE_003", "獲取角色列表失敗"),
+    
+    /**
+     * 刪除角色失敗
+     * 
+     * 當刪除角色時發生錯誤時使用此錯誤碼。
+     * 
+     * @see HttpStatus#INTERNAL_SERVER_ERROR
+     */
+    PEOPLE_DELETE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "PEOPLE_004", "刪除角色失敗"),
+    
+    /**
+     * 獲取角色名稱失敗
+     * 
+     * 當獲取角色名稱列表時發生錯誤時使用此錯誤碼。
+     * 
+     * @see HttpStatus#INTERNAL_SERVER_ERROR
+     */
+    PEOPLE_NAMES_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "PEOPLE_005", "獲取角色名稱失敗"),
+    
+    /**
+     * 武器不存在
+     * 
+     * 當查詢的武器不存在時使用此錯誤碼。
+     * 
+     * @see HttpStatus#NOT_FOUND
+     */
+    WEAPON_NOT_FOUND(HttpStatus.NOT_FOUND, "WEAPON_001", "武器不存在"),
+    
+    /**
+     * 獲取武器失敗
+     * 
+     * 當獲取武器資料時發生錯誤時使用此錯誤碼。
+     * 
+     * @see HttpStatus#INTERNAL_SERVER_ERROR
+     */
+    WEAPON_GET_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "WEAPON_002", "獲取武器失敗"),
+    
+    /**
+     * 獲取武器列表失敗
+     * 
+     * 當獲取武器列表時發生錯誤時使用此錯誤碼。
+     * 
+     * @see HttpStatus#INTERNAL_SERVER_ERROR
+     */
+    WEAPON_LIST_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "WEAPON_003", "獲取武器列表失敗"),
+    
+    /**
+     * 保存武器失敗
+     * 
+     * 當保存武器時發生錯誤時使用此錯誤碼。
+     * 
+     * @see HttpStatus#INTERNAL_SERVER_ERROR
+     */
+    WEAPON_SAVE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "WEAPON_004", "保存武器失敗"),
+    
+    /**
+     * 刪除武器失敗
+     * 
+     * 當刪除武器時發生錯誤時使用此錯誤碼。
+     * 
+     * @see HttpStatus#INTERNAL_SERVER_ERROR
+     */
+    WEAPON_DELETE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "WEAPON_005", "刪除武器失敗"),
+    
+    /**
+     * 刪除全部武器失敗
+     * 
+     * 當刪除全部武器時發生錯誤時使用此錯誤碼。
+     * 
+     * @see HttpStatus#INTERNAL_SERVER_ERROR
+     */
+    WEAPON_DELETE_ALL_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "WEAPON_006", "刪除全部武器失敗"),
+    
+    /**
+     * 檢查武器存在失敗
+     * 
+     * 當檢查武器是否存在時發生錯誤時使用此錯誤碼。
+     * 
+     * @see HttpStatus#INTERNAL_SERVER_ERROR
+     */
+    WEAPON_CHECK_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "WEAPON_007", "檢查武器存在失敗"),
+    
+    /**
+     * 獲取圖片失敗
+     * 
+     * 當獲取圖片資料時發生錯誤時使用此錯誤碼。
+     * 
+     * @see HttpStatus#INTERNAL_SERVER_ERROR
+     */
+    GALLERY_GET_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "GALLERY_001", "獲取圖片失敗"),
+    
+    /**
+     * 異步結果未找到
+     * 
+     * 當查詢的異步處理結果不存在時使用此錯誤碼。
+     * 
+     * @see HttpStatus#NOT_FOUND
+     */
+    ASYNC_RESULT_NOT_FOUND(HttpStatus.NOT_FOUND, "ASYNC_001", "未找到異步處理結果"),
+    
+    /**
+     * 異步結果查詢失敗
+     * 
+     * 當查詢異步處理結果時發生錯誤時使用此錯誤碼。
+     * 
+     * @see HttpStatus#INTERNAL_SERVER_ERROR
+     */
+    ASYNC_RESULT_QUERY_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "ASYNC_002", "異步結果查詢失敗"),
+    
+    /**
+     * 異步結果檢查失敗
+     * 
+     * 當檢查異步處理結果是否存在時發生錯誤時使用此錯誤碼。
+     * 
+     * @see HttpStatus#INTERNAL_SERVER_ERROR
+     */
+    ASYNC_RESULT_CHECK_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "ASYNC_003", "異步結果存在性檢查失敗"),
+    
+    /**
+     * 異步結果刪除失敗
+     * 
+     * 當刪除異步處理結果時發生錯誤時使用此錯誤碼。
+     * 
+     * @see HttpStatus#INTERNAL_SERVER_ERROR
+     */
+    ASYNC_RESULT_DELETE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "ASYNC_004", "異步處理結果刪除失敗");
     
     /** HTTP 狀態碼 */
     private final HttpStatus httpStatus;

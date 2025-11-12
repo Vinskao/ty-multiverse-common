@@ -233,6 +233,13 @@ GitHub Package 的實際名稱格式為：`tw.com.ty.ty-multiverse-common`
 
 ## 📝 版本歷史
 
+- **v2.0** (2025-11-12)
+  - 重構響應處理架構
+  - 新增 ErrorCode enum 統一錯誤代碼管理
+  - 新增 MessageKey enum 統一成功訊息管理
+  - 擴展 BackendApiResponse 支持 enum 參數
+  - 重構 PeopleController 和 WeaponController 使用 enum
+  - 移除硬編碼錯誤訊息，提升維護性
 - **v1.1** (2025-01-27)
   - 新增 Rate Limiter 功能
   - 協議無關設計

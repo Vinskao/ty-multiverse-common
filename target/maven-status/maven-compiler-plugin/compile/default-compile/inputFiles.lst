@@ -11,6 +11,7 @@
 /Users/vinskao/001-project/ty-multiverse/ty-multiverse-common/src/main/java/tw/com/ty/common/logging/RequestResponseLoggingAspect.java
 /Users/vinskao/001-project/ty-multiverse/ty-multiverse-common/src/main/java/tw/com/ty/common/resilience/annotation/Retryable.java
 /Users/vinskao/001-project/ty-multiverse/ty-multiverse-common/src/main/java/tw/com/ty/common/exception/handler/impl/BusinessApiExceptionHandler.java
+/Users/vinskao/001-project/ty-multiverse/ty-multiverse-common/src/main/java/tw/com/ty/common/response/MessageKey.java
 /Users/vinskao/001-project/ty-multiverse/ty-multiverse-common/src/main/java/tw/com/ty/common/exception/handler/impl/ValidationApiExceptionHandler.java
 /Users/vinskao/001-project/ty-multiverse/ty-multiverse-common/src/main/java/tw/com/ty/common/response/BackendApiResponse.java
 /Users/vinskao/001-project/ty-multiverse/ty-multiverse-common/src/main/java/tw/com/ty/common/security/config/BaseSecurityConfig.java

@@ -8,6 +8,7 @@ tw/com/ty/common/resilience/RateLimiterConfiguration.class
 tw/com/ty/common/transaction/config/TyTransactionConfig.class
 tw/com/ty/common/resilience/RateLimiterAspect.class
 tw/com/ty/common/transaction/annotation/TyTransactional.class
+tw/com/ty/common/response/MessageKey.class
 tw/com/ty/common/resilience/annotation/Retryable.class
 tw/com/ty/common/response/BackendApiResponse.class
 tw/com/ty/common/resilience/RetryAspect.class

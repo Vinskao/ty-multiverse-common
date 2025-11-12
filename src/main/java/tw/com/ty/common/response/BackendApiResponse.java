@@ -119,6 +119,29 @@ public class BackendApiResponse<T> extends BaseApiResponse<T> {
     }
 
     /**
+     * 创建成功响应（使用 MessageKey）
+     * 
+     * @param messageKey 消息键值
+     * @param data 响应数据
+     * @param <T> 数据类型
+     * @return Backend 响应对象
+     */
+    public static <T> BackendApiResponse<T> success(MessageKey messageKey, T data) {
+        return new BackendApiResponse<>(true, HttpStatus.OK.value(), messageKey.getMessage(), data);
+    }
+
+    /**
+     * 创建成功响应（使用 MessageKey，无数据）
+     * 
+     * @param messageKey 消息键值
+     * @param <T> 数据类型
+     * @return Backend 响应对象
+     */
+    public static <T> BackendApiResponse<T> success(MessageKey messageKey) {
+        return new BackendApiResponse<>(true, HttpStatus.OK.value(), messageKey.getMessage(), null);
+    }
+
+    /**
      * 创建成功响应（无数据）
      * 
      * @param message 成功消息
@@ -172,6 +195,25 @@ public class BackendApiResponse<T> extends BaseApiResponse<T> {
     }
 
     /**
+     * 创建异步请求已接受响应（使用 MessageKey）
+     * 
+     * @param requestId 请求 ID
+     * @param messageKey 消息键值
+     * @param <T> 数据类型
+     * @return Backend 响应对象
+     */
+    public static <T> BackendApiResponse<T> accepted(String requestId, MessageKey messageKey) {
+        BackendApiResponse<T> response = new BackendApiResponse<>(
+            true, 
+            HttpStatus.ACCEPTED.value(), 
+            messageKey.getMessage(), 
+            null
+        );
+        response.setRequestId(requestId);
+        return response;
+    }
+
+    /**
      * 创建创建成功响应（201 Created）
      * 
      * @param data 创建的数据
@@ -194,6 +236,36 @@ public class BackendApiResponse<T> extends BaseApiResponse<T> {
      */
     public static <T> BackendApiResponse<T> error(int code, String message) {
         return new BackendApiResponse<>(false, code, message, null);
+    }
+
+    /**
+     * 创建失败响应（使用 ErrorCode）
+     * 
+     * @param errorCode 错误代码枚举
+     * @param <T> 数据类型
+     * @return Backend 响应对象
+     */
+    public static <T> BackendApiResponse<T> error(ErrorCode errorCode) {
+        return new BackendApiResponse<>(false, errorCode.getCode(), errorCode.getMessage(), null);
+    }
+
+    /**
+     * 创建失败响应（使用 ErrorCode 带详细信息）
+     * 
+     * @param errorCode 错误代码枚举
+     * @param detail 错误详细信息
+     * @param <T> 数据类型
+     * @return Backend 响应对象
+     */
+    public static <T> BackendApiResponse<T> error(ErrorCode errorCode, String detail) {
+        BackendApiResponse<T> response = new BackendApiResponse<>(
+            false, 
+            errorCode.getCode(), 
+            errorCode.getMessage(), 
+            null
+        );
+        response.setError(detail);
+        return response;
     }
 
     /**
