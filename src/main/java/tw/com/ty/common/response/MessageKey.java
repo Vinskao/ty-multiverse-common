@@ -94,7 +94,12 @@ public enum MessageKey {
      * 創建角色成功
      */
     PEOPLE_CREATE_SUCCESS("創建角色成功"),
-    
+
+    /**
+     * 新增角色成功
+     */
+    PEOPLE_INSERT_SUCCESS("新增角色成功"),
+
     /**
      * 更新角色成功
      */
@@ -195,7 +200,17 @@ public enum MessageKey {
      * 角色刪除請求已提交
      */
     ASYNC_PEOPLE_DELETE_SUBMITTED("角色刪除請求已提交"),
-    
+
+    /**
+     * 角色新增請求已提交
+     */
+    ASYNC_PEOPLE_INSERT_SUBMITTED("角色新增請求已提交"),
+
+    /**
+     * 角色更新請求已提交
+     */
+    ASYNC_PEOPLE_UPDATE_SUBMITTED("角色更新請求已提交"),
+
     /**
      * 武器查詢請求已提交
      */

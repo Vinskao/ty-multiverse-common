@@ -454,15 +454,6 @@ public enum ErrorCode {
     PEOPLE_LIST_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "PEOPLE_003", "獲取角色列表失敗"),
     
     /**
-     * 刪除角色失敗
-     * 
-     * 當刪除角色時發生錯誤時使用此錯誤碼。
-     * 
-     * @see HttpStatus#INTERNAL_SERVER_ERROR
-     */
-    PEOPLE_DELETE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "PEOPLE_004", "刪除角色失敗"),
-    
-    /**
      * 獲取角色名稱失敗
      * 
      * 當獲取角色名稱列表時發生錯誤時使用此錯誤碼。
@@ -577,9 +568,47 @@ public enum ErrorCode {
      * 
      * @see HttpStatus#INTERNAL_SERVER_ERROR
      */
-    ASYNC_RESULT_DELETE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "ASYNC_004", "異步處理結果刪除失敗");
+    ASYNC_RESULT_DELETE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "ASYNC_004", "異步處理結果刪除失敗"), 
     
-    /** HTTP 狀態碼 */
+    CONCURRENT_UPDATE_DETECTED(HttpStatus.CONFLICT, "SYS_005", "資料已被其他使用者修改"), 
+
+    DATA_INTEGRITY_VIOLATION(HttpStatus.BAD_REQUEST, "SYS_006", "資料完整性違反"), 
+    
+    /**
+     * 新增人物失敗
+     */
+    PEOPLE_INSERT_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "PEOPLE_001", "新增人物失敗"),
+
+    /**
+     * 更新人物失敗
+     */
+    PEOPLE_UPDATE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "PEOPLE_002", "更新人物失敗"),
+
+    /**
+     * 刪除人物失敗
+     */
+    PEOPLE_DELETE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "PEOPLE_003", "刪除人物失敗"),
+
+    /**
+     * 獲取所有人物失敗
+     */
+    PEOPLE_GET_ALL_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "PEOPLE_005", "獲取所有人物失敗"),
+
+    /**
+     * 獲取人物 by name 失敗
+     */
+    PEOPLE_GET_BY_NAME_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "PEOPLE_006", "獲取人物 by name 失敗"),
+
+    /**
+     * 獲取人物 by id 失敗
+     */
+    PEOPLE_GET_BY_ID_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "PEOPLE_007", "獲取人物 by id 失敗"),
+
+    /**
+     * 人物輸入驗證失敗
+     */
+    PEOPLE_INVALID_INPUT(HttpStatus.BAD_REQUEST, "PEOPLE_008", "人物輸入資料無效");
+
     private final HttpStatus httpStatus;
     
     /** 錯誤代碼 */
