@@ -5,7 +5,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.retry.backoff.ExponentialBackOffPolicy;
 import org.springframework.retry.policy.SimpleRetryPolicy;
 import org.springframework.retry.support.RetryTemplate;
@@ -25,9 +24,6 @@ import java.util.Map;
 public class RetryAspect {
 
     private static final Logger logger = LoggerFactory.getLogger(RetryAspect.class);
-
-    @Autowired
-    private RetryTemplate defaultRetryTemplate;
 
     @Around("@annotation(retryable)")
     public Object retryOnException(ProceedingJoinPoint joinPoint, Retryable retryable) throws Throwable {

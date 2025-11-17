@@ -2,7 +2,6 @@ package tw.com.ty.common.exception.advice;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -29,7 +28,6 @@ public class GlobalExceptionHandler {
 
     private final List<ApiExceptionHandler> handlerChain;
 
-    @Autowired
     public GlobalExceptionHandler(List<ApiExceptionHandler> handlerChain) {
         this.handlerChain = handlerChain;
     }
