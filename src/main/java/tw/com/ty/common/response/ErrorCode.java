@@ -316,22 +316,13 @@ public enum ErrorCode {
     // ==================== 登出相關錯誤 ====================
     
     /**
-     * 登出成功
-     * 
-     * 當用戶成功登出時使用此錯誤碼。
-     * 
-     * @see HttpStatus#OK
-     */
-    LOGOUT_SUCCESS(HttpStatus.OK, "LOGOUT_001", "登出成功"),
-    
-    /**
      * 登出失敗
      * 
      * 當用戶登出過程中發生錯誤時使用此錯誤碼。
      * 
      * @see HttpStatus#INTERNAL_SERVER_ERROR
      */
-    LOGOUT_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "LOGOUT_002", "登出失敗"),
+    LOGOUT_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "LOGOUT_001", "登出失敗"),
     
     // ==================== 會話相關錯誤 ====================
     
@@ -382,25 +373,25 @@ public enum ErrorCode {
      */
     NO_ACTIVE_GAME(HttpStatus.BAD_REQUEST, "APP_002", "No active game"),
     
-    // ==================== 安全配置相關 ====================
+    // ==================== 安全配置相關錯誤 ====================
     
     /**
-     * CSRF 保護已禁用
+     * CSRF 配置錯誤
      * 
-     * 當 CSRF 保護已禁用時使用此錯誤碼。
+     * 當 CSRF 保護配置發生錯誤時使用此錯誤碼。
      * 
-     * @see HttpStatus#OK
+     * @see HttpStatus#INTERNAL_SERVER_ERROR
      */
-    CSRF_DISABLED(HttpStatus.OK, "CONFIG_001", "CSRF 保護已禁用"),
+    CSRF_CONFIG_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "CONFIG_001", "CSRF 配置錯誤"),
     
     /**
-     * CORS 已啟用
+     * CORS 配置錯誤
      * 
-     * 當 CORS 已啟用時使用此錯誤碼。
+     * 當 CORS 配置發生錯誤時使用此錯誤碼。
      * 
-     * @see HttpStatus#OK
+     * @see HttpStatus#INTERNAL_SERVER_ERROR
      */
-    CORS_ENABLED(HttpStatus.OK, "CONFIG_002", "CORS 已啟用"),
+    CORS_CONFIG_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "CONFIG_002", "CORS 配置錯誤"),
     
     // ==================== Resilience 相關錯誤 ====================
     
@@ -460,7 +451,7 @@ public enum ErrorCode {
      * 
      * @see HttpStatus#INTERNAL_SERVER_ERROR
      */
-    PEOPLE_NAMES_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "PEOPLE_005", "獲取角色名稱失敗"),
+    PEOPLE_NAMES_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "PEOPLE_004", "獲取角色名稱失敗"),
     
     /**
      * 武器不存在
@@ -570,44 +561,95 @@ public enum ErrorCode {
      */
     ASYNC_RESULT_DELETE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "ASYNC_004", "異步處理結果刪除失敗"), 
     
-    CONCURRENT_UPDATE_DETECTED(HttpStatus.CONFLICT, "SYS_005", "資料已被其他使用者修改"), 
+    /**
+     * 並發更新衝突
+     * 
+     * 當檢測到並發更新衝突時使用此錯誤碼。
+     * 通常發生在多個用戶同時修改同一資源時。
+     * 
+     * @see HttpStatus#CONFLICT
+     */
+    CONCURRENT_UPDATE_DETECTED(HttpStatus.CONFLICT, "SYS_013", "資料已被其他使用者修改"), 
 
-    DATA_INTEGRITY_VIOLATION(HttpStatus.BAD_REQUEST, "SYS_006", "資料完整性違反"), 
+    /**
+     * 資料完整性違反
+     * 
+     * 當操作違反資料完整性約束時使用此錯誤碼。
+     * 例如：外鍵約束、唯一性約束、非空約束等。
+     * 
+     * @see HttpStatus#BAD_REQUEST
+     */
+    DATA_INTEGRITY_VIOLATION(HttpStatus.BAD_REQUEST, "SYS_014", "資料完整性違反"), 
     
     /**
      * 新增人物失敗
+     * 
+     * 當新增人物資料時發生錯誤時使用此錯誤碼。
+     * 例如：資料庫插入失敗、資料驗證失敗等。
+     * 
+     * @see HttpStatus#INTERNAL_SERVER_ERROR
      */
-    PEOPLE_INSERT_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "PEOPLE_001", "新增人物失敗"),
+    PEOPLE_INSERT_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "PEOPLE_005", "新增人物失敗"),
 
     /**
      * 更新人物失敗
+     * 
+     * 當更新人物資料時發生錯誤時使用此錯誤碼。
+     * 例如：資料庫更新失敗、資料驗證失敗、樂觀鎖衝突等。
+     * 
+     * @see HttpStatus#INTERNAL_SERVER_ERROR
      */
-    PEOPLE_UPDATE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "PEOPLE_002", "更新人物失敗"),
+    PEOPLE_UPDATE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "PEOPLE_006", "更新人物失敗"),
 
     /**
      * 刪除人物失敗
+     * 
+     * 當刪除人物資料時發生錯誤時使用此錯誤碼。
+     * 例如：資料庫刪除失敗、外鍵約束衝突等。
+     * 
+     * @see HttpStatus#INTERNAL_SERVER_ERROR
      */
-    PEOPLE_DELETE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "PEOPLE_003", "刪除人物失敗"),
+    PEOPLE_DELETE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "PEOPLE_007", "刪除人物失敗"),
 
     /**
      * 獲取所有人物失敗
+     * 
+     * 當獲取所有人物資料時發生錯誤時使用此錯誤碼。
+     * 例如：資料庫查詢失敗、資料轉換錯誤等。
+     * 
+     * @see HttpStatus#INTERNAL_SERVER_ERROR
      */
-    PEOPLE_GET_ALL_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "PEOPLE_005", "獲取所有人物失敗"),
+    PEOPLE_GET_ALL_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "PEOPLE_008", "獲取所有人物失敗"),
 
     /**
-     * 獲取人物 by name 失敗
+     * 根據名稱獲取人物失敗
+     * 
+     * 當根據名稱查詢人物資料時發生錯誤時使用此錯誤碼。
+     * 例如：資料庫查詢失敗、名稱格式錯誤等。
+     * 
+     * @see HttpStatus#INTERNAL_SERVER_ERROR
      */
-    PEOPLE_GET_BY_NAME_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "PEOPLE_006", "獲取人物 by name 失敗"),
+    PEOPLE_GET_BY_NAME_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "PEOPLE_009", "獲取人物 by name 失敗"),
 
     /**
-     * 獲取人物 by id 失敗
+     * 根據 ID 獲取人物失敗
+     * 
+     * 當根據 ID 查詢人物資料時發生錯誤時使用此錯誤碼。
+     * 例如：資料庫查詢失敗、ID 格式錯誤等。
+     * 
+     * @see HttpStatus#INTERNAL_SERVER_ERROR
      */
-    PEOPLE_GET_BY_ID_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "PEOPLE_007", "獲取人物 by id 失敗"),
+    PEOPLE_GET_BY_ID_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "PEOPLE_010", "獲取人物 by id 失敗"),
 
     /**
-     * 人物輸入驗證失敗
+     * 人物輸入資料無效
+     * 
+     * 當人物輸入資料驗證失敗時使用此錯誤碼。
+     * 例如：必填欄位缺失、資料格式錯誤、資料範圍超出限制等。
+     * 
+     * @see HttpStatus#BAD_REQUEST
      */
-    PEOPLE_INVALID_INPUT(HttpStatus.BAD_REQUEST, "PEOPLE_008", "人物輸入資料無效");
+    PEOPLE_INVALID_INPUT(HttpStatus.BAD_REQUEST, "PEOPLE_011", "人物輸入資料無效");
 
     private final HttpStatus httpStatus;
     
@@ -759,6 +801,81 @@ public enum ErrorCode {
         java.util.List<ErrorCode> result = new java.util.ArrayList<>();
         for (ErrorCode error : values()) {
             if (error.getErrorCode().startsWith("FILE_")) {
+                result.add(error);
+            }
+        }
+        return result;
+    }
+    
+    /**
+     * 獲取所有人物相關錯誤
+     * 
+     * @return 人物錯誤列表
+     */
+    public static java.util.List<ErrorCode> getPeopleErrors() {
+        java.util.List<ErrorCode> result = new java.util.ArrayList<>();
+        for (ErrorCode error : values()) {
+            if (error.getErrorCode().startsWith("PEOPLE_")) {
+                result.add(error);
+            }
+        }
+        return result;
+    }
+    
+    /**
+     * 獲取所有武器相關錯誤
+     * 
+     * @return 武器錯誤列表
+     */
+    public static java.util.List<ErrorCode> getWeaponErrors() {
+        java.util.List<ErrorCode> result = new java.util.ArrayList<>();
+        for (ErrorCode error : values()) {
+            if (error.getErrorCode().startsWith("WEAPON_")) {
+                result.add(error);
+            }
+        }
+        return result;
+    }
+    
+    /**
+     * 獲取所有異步處理相關錯誤
+     * 
+     * @return 異步處理錯誤列表
+     */
+    public static java.util.List<ErrorCode> getAsyncErrors() {
+        java.util.List<ErrorCode> result = new java.util.ArrayList<>();
+        for (ErrorCode error : values()) {
+            if (error.getErrorCode().startsWith("ASYNC_")) {
+                result.add(error);
+            }
+        }
+        return result;
+    }
+    
+    /**
+     * 獲取所有配置相關錯誤
+     * 
+     * @return 配置錯誤列表
+     */
+    public static java.util.List<ErrorCode> getConfigErrors() {
+        java.util.List<ErrorCode> result = new java.util.ArrayList<>();
+        for (ErrorCode error : values()) {
+            if (error.getErrorCode().startsWith("CONFIG_")) {
+                result.add(error);
+            }
+        }
+        return result;
+    }
+    
+    /**
+     * 獲取所有 Resilience 相關錯誤
+     * 
+     * @return Resilience 錯誤列表
+     */
+    public static java.util.List<ErrorCode> getResilienceErrors() {
+        java.util.List<ErrorCode> result = new java.util.ArrayList<>();
+        for (ErrorCode error : values()) {
+            if (error.getErrorCode().startsWith("RESIL_")) {
                 result.add(error);
             }
         }

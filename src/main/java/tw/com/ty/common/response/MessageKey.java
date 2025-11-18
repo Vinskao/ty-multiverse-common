@@ -274,6 +274,11 @@ public enum MessageKey {
     AUTH_TEST_SUCCESS("認證測試成功"),
     
     /**
+     * 登出成功
+     */
+    LOGOUT_SUCCESS("登出成功"),
+    
+    /**
      * 登出測試成功
      */
     AUTH_LOGOUT_SUCCESS("登出測試成功"),
