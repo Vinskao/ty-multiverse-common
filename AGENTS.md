@@ -234,3 +234,73 @@ export GITHUB_TOKEN=your_token_here
 # Optional for IDE support
 export MAVEN_OPTS="-Xmx2g -XX:+UseG1GC"
 ```
+
+---
+
+## 本地建置與安裝
+
+```bash
+cd ty-multiverse-common
+mvn clean install
+
+# 測試編譯與打包
+mvn clean compile
+mvn package -Dmaven.test.skip=true
+```
+
+## 發佈到 GitHub Packages
+
+### Maven settings.xml 設定
+
+在 `~/.m2/settings.xml` 加入：
+```xml
+<servers>
+  <server>
+    <id>github</id>
+    <username>Vinskao</username>
+    <password>${env.GITHUB_TOKEN}</password>
+  </server>
+</servers>
+<activeProfiles>
+  <activeProfile>github</activeProfile>
+</activeProfiles>
+```
+
+### 發佈指令
+
+```bash
+export GITHUB_TOKEN=ghp_your_actual_token_here
+cd ty-multiverse-common
+mvn clean deploy -Dmaven.test.skip=true
+```
+
+## 驗證 GitHub Package
+
+```bash
+# 查看所有 Maven 套件
+curl -H "Authorization: Bearer $GITHUB_TOKEN" \
+     "https://api.github.com/users/Vinskao/packages?package_type=maven"
+
+# 查看特定版本
+curl -H "Authorization: Bearer $GITHUB_TOKEN" \
+     "https://api.github.com/users/Vinskao/packages/maven/tw.com.ty.ty-multiverse-common/versions"
+
+# 確認 Token 狀態
+if [ -n "$GITHUB_TOKEN" ]; then
+    echo "GITHUB_TOKEN 已設定，長度: ${#GITHUB_TOKEN} 字符"
+else
+    echo "GITHUB_TOKEN 未設定"
+fi
+```
+
+## POM 發佈配置（pom.xml）
+
+```xml
+<distributionManagement>
+  <repository>
+    <id>github</id>
+    <name>GitHub Packages</name>
+    <url>https://maven.pkg.github.com/Vinskao/ty-multiverse-common</url>
+  </repository>
+</distributionManagement>
+```
