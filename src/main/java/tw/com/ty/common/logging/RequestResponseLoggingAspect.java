@@ -4,15 +4,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import tw.com.ty.common.security.mask.SensitiveDataMasker;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.Arrays;
 import java.util.UUID;
 
 /**
@@ -78,7 +79,8 @@ public class RequestResponseLoggingAspect {
                 }
             }
         } catch (Exception e) {
-            logger.warn("Failed to log request for {}: {}", joinPoint.getSignature().toShortString(), e.getMessage());
+            logger.warn("Failed to log request for {}: {}", joinPoint.getSignature().toShortString(),
+                SensitiveDataMasker.mask(e.getMessage()));
         }
     }
 
@@ -130,26 +132,34 @@ public class RequestResponseLoggingAspect {
                 }
             }
         } catch (Exception e) {
-            logger.warn("Failed to log response for {}: {}", joinPoint.getSignature().toShortString(), e.getMessage());
+            logger.warn("Failed to log response for {}: {}", joinPoint.getSignature().toShortString(),
+                SensitiveDataMasker.mask(e.getMessage()));
         }
     }
 
-    private String getRequestParameters(ProceedingJoinPoint joinPoint) {
+    String getRequestParameters(ProceedingJoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
         if (args.length == 0) return "[]";
 
-        // 過濾敏感參數
-        return Arrays.toString(Arrays.stream(args)
-            .map(arg -> {
-                if (arg == null) return "null";
-                String className = arg.getClass().getSimpleName();
-                // 不記錄敏感類型，如 HttpServletRequest, HttpServletResponse 等
-                if (className.contains("HttpServlet") || className.contains("Request") || className.contains("Response")) {
-                    return "[" + className + "]";
-                }
-                return arg.toString();
-            })
-            .toArray());
+        // 以「參數名=值」記錄，讓 refreshToken 這類不透明 token 也能依名稱遮罩
+        String[] names = joinPoint.getSignature() instanceof MethodSignature sig ? sig.getParameterNames() : null;
+        StringBuilder out = new StringBuilder("[");
+        for (int i = 0; i < args.length; i++) {
+            if (i > 0) out.append(", ");
+            if (names != null && i < names.length) out.append(names[i]).append('=');
+            out.append(describeArg(args[i]));
+        }
+        return SensitiveDataMasker.mask(out.append(']').toString());
+    }
+
+    private String describeArg(Object arg) {
+        if (arg == null) return "null";
+        String className = arg.getClass().getSimpleName();
+        // 不記錄 HttpServletRequest、HttpServletResponse 等物件內容
+        if (className.contains("HttpServlet") || className.contains("Request") || className.contains("Response")) {
+            return "[" + className + "]";
+        }
+        return arg.toString();
     }
 
     private String getRequestHeaders(HttpServletRequest request) {
@@ -161,7 +171,7 @@ public class RequestResponseLoggingAspect {
         return headers.toString();
     }
 
-    private String truncateResponse(Object result, int statusCode) {
+    String truncateResponse(Object result, int statusCode) {
         try {
             String json = objectMapper.writeValueAsString(result);
 
@@ -175,6 +185,7 @@ public class RequestResponseLoggingAspect {
                 maxLength = Integer.MAX_VALUE;
             }
 
+            json = SensitiveDataMasker.mask(json);
             if (json.length() > maxLength) {
                 return json.substring(0, maxLength) + "... [truncated, status: " + statusCode + "]";
             }
@@ -196,7 +207,7 @@ public class RequestResponseLoggingAspect {
     /**
      * 記錄 ApiResponse 的詳細資訊
      */
-    private void logApiResponseDetails(Object result, String requestId, int statusCode) {
+    void logApiResponseDetails(Object result, String requestId, int statusCode) {
         try {
             // 使用反射來檢查 ApiResponse 的屬性
             Class<?> clazz = result.getClass();
@@ -210,7 +221,7 @@ public class RequestResponseLoggingAspect {
                 // 這是一個標準的 ApiResponse
                 Object success = getFieldValue(result, "success");
                 Object code = getFieldValue(result, "code");
-                Object message = getFieldValue(result, "message");
+                String message = SensitiveDataMasker.mask(String.valueOf(getFieldValue(result, "message")));
 
                 if (statusCode >= 200 && statusCode < 300) {
                     logger.debug("📊 [{}] ApiResponse - success: {}, code: {}, message: {}",
@@ -223,7 +234,7 @@ public class RequestResponseLoggingAspect {
                 // 如果有 error 字段，也記錄下來
                 Object error = getFieldValue(result, "error");
                 if (error != null && !error.toString().isEmpty()) {
-                    logger.warn("🚨 [{}] ApiResponse error: {}", requestId, error);
+                    logger.warn("🚨 [{}] ApiResponse error: {}", requestId, SensitiveDataMasker.mask(error.toString()));
                 }
             }
         } catch (Exception e) {

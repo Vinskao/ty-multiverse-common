@@ -1,7 +1,6 @@
 package tw.com.ty.common.exception.handler.impl;
 
 import org.springframework.core.annotation.Order;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 import tw.com.ty.common.response.ErrorCode;
@@ -17,12 +16,17 @@ public class DataIntegrityApiExceptionHandler implements ApiExceptionHandler {
 
     @Override
     public boolean canHandle(Exception ex) {
-        return ex instanceof DataIntegrityViolationException;
+        return ThrowableTypes.isInstanceOf(ex, "org.springframework.dao.DataIntegrityViolationException");
     }
 
     @Override
     public ErrorResponse handle(Exception ex, String requestUri) {
         return ErrorResponse.fromErrorCode(
             ErrorCode.DUPLICATE_ENTRY, "資料衝突或約束違反", requestUri);
+    }
+
+    @Override
+    public org.springframework.http.HttpStatus status(Exception ex) {
+        return ErrorCode.DUPLICATE_ENTRY.getHttpStatus();
     }
 }

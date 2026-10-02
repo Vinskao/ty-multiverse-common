@@ -24,7 +24,11 @@ import tw.com.ty.common.response.ErrorCode;
  * @author TY Backend Team
  * @version 1.0
  * @since 2025
+ *
+ * @deprecated Since 2.3.0: Duplicated by the shared chain (SecurityApiExceptionHandler). Not registered by the auto-configuration; use
+ *             ServletExceptionAdvice from {@code tw.com.ty.common.exception} instead. Will be removed in the next major version.
  */
+@Deprecated(since = "2.3.0", forRemoval = true)
 @RestControllerAdvice
 public class SecurityExceptionHandler {
 

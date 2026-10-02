@@ -32,6 +32,11 @@ public class ResilienceApiExceptionHandler implements ApiExceptionHandler {
             errorCode, ex.getMessage(), requestUri);
     }
 
+    @Override
+    public org.springframework.http.HttpStatus status(Exception ex) {
+        return determineErrorCode(ex).getHttpStatus();
+    }
+
     private ErrorCode determineErrorCode(Exception ex) {
         String message = ex.getMessage().toLowerCase();
         if (message.contains("rate limit")) {

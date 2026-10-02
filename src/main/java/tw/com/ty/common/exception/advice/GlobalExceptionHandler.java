@@ -20,7 +20,11 @@ import java.util.List;
  *
  * 統一處理應用程序中的各種異常，並返回標準化的錯誤響應。
  * 注意：此類依賴於 Servlet API，只能在 Web MVC 環境中使用。
+ *
+ * @deprecated Since 2.3.0: Hard-coded every non-Business exception to HTTP 500 (even 400/403) and only worked on servlet MVC. Not registered by the auto-configuration; use
+ *             ServletExceptionAdvice / ReactiveExceptionAdvice from {@code tw.com.ty.common.exception} instead. Will be removed in the next major version.
  */
+@Deprecated(since = "2.3.0", forRemoval = true)
 @ControllerAdvice
 public class GlobalExceptionHandler {
 

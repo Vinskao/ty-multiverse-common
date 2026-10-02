@@ -20,4 +20,12 @@ public interface ApiExceptionHandler {
      * 注意：具體的響應包裝由實現類決定（ResponseEntity 或 Mono<ResponseEntity>）
      */
     ErrorResponse handle(Exception ex, String requestUri);
+
+    /**
+     * HTTP status this handler maps the exception to. Defaults to 500 so existing implementations keep
+     * their old behavior; override it so the status is not hard-coded by the web adapter.
+     */
+    default org.springframework.http.HttpStatus status(Exception ex) {
+        return org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+    }
 }

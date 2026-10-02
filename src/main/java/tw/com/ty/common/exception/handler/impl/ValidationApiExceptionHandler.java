@@ -31,4 +31,9 @@ public class ValidationApiExceptionHandler implements ApiExceptionHandler {
         return ErrorResponse.fromErrorCode(
             ErrorCode.BAD_REQUEST, detail, requestUri);
     }
+
+    @Override
+    public org.springframework.http.HttpStatus status(Exception ex) {
+        return org.springframework.http.HttpStatus.BAD_REQUEST;
+    }
 }

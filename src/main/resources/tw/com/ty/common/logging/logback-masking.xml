@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Masks credentials and personal data in every log line (message + stack trace).
+  Usage in an application's logback-spring.xml (BEFORE Spring Boot's base.xml):
+
+    <configuration>
+      <include resource="tw/com/ty/common/logging/logback-masking.xml"/>
+      <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    </configuration>
+
+  It also points Spring Boot's default patterns (…%m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}) at %maskedEx,
+  so no application.yml change is needed.
+-->
+<included>
+    <conversionRule conversionWord="m" converterClass="tw.com.ty.common.logging.mask.MaskingMessageConverter"/>
+    <conversionRule conversionWord="msg" converterClass="tw.com.ty.common.logging.mask.MaskingMessageConverter"/>
+    <conversionRule conversionWord="message" converterClass="tw.com.ty.common.logging.mask.MaskingMessageConverter"/>
+    <conversionRule conversionWord="maskedEx" converterClass="tw.com.ty.common.logging.mask.MaskingThrowableConverter"/>
+    <property name="LOG_EXCEPTION_CONVERSION_WORD" value="%maskedEx"/>
+</included>

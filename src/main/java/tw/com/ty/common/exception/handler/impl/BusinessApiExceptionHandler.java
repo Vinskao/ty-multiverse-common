@@ -23,6 +23,11 @@ public class BusinessApiExceptionHandler extends AbstractApiExceptionHandler {
     protected ErrorResponse createErrorResponse(BusinessException ex, String requestUri) {
         return UnifiedErrorConverter.toHttpResponse(ex, requestUri);
     }
+
+    @Override
+    public org.springframework.http.HttpStatus status(Exception ex) {
+        return ((BusinessException) ex).getErrorCode().getHttpStatus();
+    }
 }
 
 /**
