@@ -47,6 +47,11 @@ class ServletExceptionAdviceTest {
             return name;
         }
 
+        @GetMapping("/number")
+        String number(@RequestParam Integer value) {
+            return String.valueOf(value);
+        }
+
         @PostMapping("/json")
         String json(@RequestBody java.util.Map<String, String> body) {
             return "ok";
@@ -82,6 +87,11 @@ class ServletExceptionAdviceTest {
     @Test
     void handle_Should_Return400_When_RequiredParamMissing() throws Exception {
         mvc.perform(get("/param")).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void handle_Should_Return400_When_ParamHasWrongType() throws Exception {
+        mvc.perform(get("/number").param("value", "abc")).andExpect(status().isBadRequest());
     }
 
     @Test

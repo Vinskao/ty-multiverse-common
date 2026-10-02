@@ -75,6 +75,30 @@ class ExceptionTranslatorTest {
     }
 
     @Test
+    void translate_Should_Return400_When_ParameterHasWrongType() throws Exception {
+        Method m = getClass().getDeclaredMethod("dummy", String.class);
+        var ex = new org.springframework.web.method.annotation.MethodArgumentTypeMismatchException(
+                "abc", Integer.class, "minDamage", new MethodParameter(m, 0), new NumberFormatException("abc"));
+
+        assertThat(translate(ex).status()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    void translate_Should_Return400_When_ModelAttributeBindingFails() {
+        BeanPropertyBindingResult binding = new BeanPropertyBindingResult(new Object(), "form");
+        binding.addError(new org.springframework.validation.FieldError("form", "age", "must be a number"));
+
+        assertThat(translate(new org.springframework.validation.BindException(binding)).status())
+                .isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    void translate_Should_Return400_When_ConstraintViolation() {
+        assertThat(translate(new jakarta.validation.ConstraintViolationException("age: must be positive",
+                java.util.Set.of())).status()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
     void translate_Should_Return405_When_MethodNotSupported() {
         assertThat(translate(new HttpRequestMethodNotSupportedException("PATCH")).status())
                 .isEqualTo(HttpStatus.METHOD_NOT_ALLOWED);
